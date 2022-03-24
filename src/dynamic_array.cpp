@@ -40,29 +40,35 @@ namespace assignment {
       Resize(capacity()+kCapacityGrowthCoefficient);
     }
 
-    int oldElem = value;
-    int c = 0;
-    for (int i = index + 1; i < capacity() + 1; ++i) {
-      c = data_[i];
-      data_[i] = oldElem;
-      oldElem = c;
+    for (int i = size() - 1; i >= index; i--) {
+      data_[i + 1] = data_[i];
     }
     data_[index] = value;
     size_++;
   }
 
   bool DynamicArray::Set(int index, int new_value) {
-    // Write your code here ...
-    return false;
+    if(index < 0 || index >= size()){
+      return false;
+    }
+    data_[index] = new_value;
+    return true;
   }
 
   std::optional<int> DynamicArray::Remove(int index) {
-    // Write your code here ...
-    return std::nullopt;
+    if(index < 0 || index >= size()){
+      return std::nullopt;
+    }
+    int deleteElem = data_[index];
+    for (int i = index; i < size(); i++) {
+      data_[i] = data_[i+1];
+    }
+    size_--;
+    return deleteElem;
   }
 
   void DynamicArray::Clear() {
-    // Write your code here ...
+    size_ = 0;
   }
 
   std::optional<int> DynamicArray::Get(int index) const {
@@ -73,12 +79,16 @@ namespace assignment {
   }
 
   std::optional<int> DynamicArray::IndexOf(int value) const {
-    // Write your code here ...
+    for (int i = 0; i < size(); ++i) {
+      if(data_[i] == value) return i;
+    }
     return std::nullopt;
   }
 
   bool DynamicArray::Contains(int value) const {
-    return false;
+    if(IndexOf(value) == std::nullopt) return false;
+
+    return true;
   }
 
   bool DynamicArray::IsEmpty() const {
