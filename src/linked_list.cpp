@@ -3,8 +3,6 @@
 namespace assignment {
 
   LinkedList::~LinkedList() {
-
-    // эквивалентно очистке списка
     LinkedList::Clear();
   }
 
